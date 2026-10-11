@@ -48,26 +48,37 @@ document.addEventListener('DOMContentLoaded', () => {
         cek();
     }
 
+    /* ---------- Gambar proyek gagal dimuat: tampilkan pengganti ---------- */
+    document.querySelectorAll('.thumb img').forEach((img) => {
+        const sembunyi = () => img.classList.add('rusak');
+        img.addEventListener('error', sembunyi);
+        if (img.complete && img.naturalWidth === 0) sembunyi();
+    });
+
     if (!('IntersectionObserver' in window)) return;
 
-    /* ---------- Menu aktif sesuai bagian yang terlihat ---------- */
-    const links = [...document.querySelectorAll('.menu a')];
+    /* ---------- Menu aktif sesuai bagian (hanya di halaman utama) ---------- */
+    const links = [...document.querySelectorAll('.menu a')].filter((a) =>
+        (a.getAttribute('href') || '').startsWith('#')
+    );
     const bagian = links
         .map((a) => document.querySelector(a.getAttribute('href')))
         .filter(Boolean);
 
-    const spy = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((e) => {
-                if (!e.isIntersecting) return;
-                links.forEach((a) =>
-                    a.classList.toggle('aktif', a.getAttribute('href') === '#' + e.target.id)
-                );
-            });
-        },
-        { rootMargin: '-45% 0px -50% 0px' }
-    );
-    bagian.forEach((s) => spy.observe(s));
+    if (bagian.length) {
+        const spy = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((e) => {
+                    if (!e.isIntersecting) return;
+                    links.forEach((a) =>
+                        a.classList.toggle('aktif', a.getAttribute('href') === '#' + e.target.id)
+                    );
+                });
+            },
+            { rootMargin: '-45% 0px -50% 0px' }
+        );
+        bagian.forEach((s) => spy.observe(s));
+    }
 
     /* ---------- Animasi muncul saat scroll ---------- */
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -88,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.classList.add('tampil');
                 pengamat.unobserve(el);
 
-                // Bersihkan kelas animasi agar efek hover kartu tidak tertunda
+                // Bersihkan kelas animasi agar efek hover tidak tertunda
                 setTimeout(() => {
                     el.classList.remove('reveal', 'reveal-kiri', 'reveal-kanan', 'tampil');
                     el.style.transitionDelay = '';
@@ -112,4 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.kontak > p, .kontak-aksi').forEach((el, i) => {
         tambah(el, '', i * 120);
     });
+
+    /* Halaman detail proyek */
+    document.querySelectorAll('.detail-blok').forEach((el, i) => tambah(el, '', Math.min(i, 4) * 80));
 });
