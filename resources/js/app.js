@@ -2,57 +2,134 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const tombol = document.getElementById('menu-toggle');
     const menu = document.getElementById('menu');
+    const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let menuTerbuka = false;
+    let menunggu = false;
+
+    /* ---------- Navbar: transparan di atas hero, solid saat scroll / menu terbuka ---------- */
+    const perbaruiNavbar = () => {
+        if (navbar) navbar.classList.toggle('solid', window.scrollY > 10 || menuTerbuka);
+        menunggu = false;
+    };
+
+    window.addEventListener(
+        'scroll',
+        () => {
+            if (!menunggu) {
+                menunggu = true;
+                requestAnimationFrame(perbaruiNavbar);
+            }
+        },
+        { passive: true }
+    );
 
     /* ---------- Menu mobile ---------- */
     if (tombol && menu) {
-        const tutup = () => {
-            menu.classList.remove('buka');
-            tombol.classList.remove('aktif');
-            tombol.setAttribute('aria-expanded', 'false');
+        const aturMenu = (buka) => {
+            menuTerbuka = buka;
+            menu.classList.toggle('buka', buka);
+            tombol.classList.toggle('aktif', buka);
+            tombol.setAttribute('aria-expanded', String(buka));
+            perbaruiNavbar();
         };
 
-        tombol.addEventListener('click', () => {
-            const terbuka = menu.classList.toggle('buka');
-            tombol.classList.toggle('aktif', terbuka);
-            tombol.setAttribute('aria-expanded', String(terbuka));
-        });
-
-        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', tutup));
+        tombol.addEventListener('click', () => aturMenu(!menuTerbuka));
+        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => aturMenu(false)));
 
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) tutup();
+            if (window.innerWidth > 768 && menuTerbuka) aturMenu(false);
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') tutup();
+            if (e.key === 'Escape' && menuTerbuka) aturMenu(false);
         });
     }
 
-    /* ---------- Bayangan navbar saat scroll ---------- */
-    if (navbar) {
-        let menunggu = false;
-        const cek = () => {
-            navbar.classList.toggle('bayangan', window.scrollY > 10);
-            menunggu = false;
-        };
-        window.addEventListener(
+    perbaruiNavbar();
+
+    /* ---------- Gambar gagal dimuat: tampilkan pengganti (inisial) ---------- */
+    document.querySelectorAll('.thumb img, .foto-bungkus img').forEach((img) => {
+        const sembunyi = () => img.classList.add('rusak');
+        img.addEventListener('error', sembunyi);
+        if (img.complete && img.naturalWidth === 0) sembunyi();
+    });
+
+    /* ---------- Slider foto proyek ---------- */
+    document.querySelectorAll('[data-slider]').forEach((slider) => {
+        const jalur = slider.querySelector('.slider-jalur');
+        const slides = jalur ? [...jalur.children] : [];
+        if (slides.length < 2) return;
+
+        const prev = slider.querySelector('.slider-prev');
+        const next = slider.querySelector('.slider-next');
+        const wadahTitik = slider.querySelector('.slider-titik');
+        const saat = slider.querySelector('[data-saat]');
+        let aktif = 0;
+        let antre = false;
+
+        function pergi(i) {
+            const target = slides[Math.max(0, Math.min(slides.length - 1, i))];
+            jalur.scrollTo({ left: target.offsetLeft, behavior: kurangiGerak ? 'auto' : 'smooth' });
+        }
+
+        const titik = slides.map((_, i) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Ke foto ' + (i + 1));
+            b.addEventListener('click', () => pergi(i));
+            if (wadahTitik) wadahTitik.appendChild(b);
+            return b;
+        });
+
+        function perbarui() {
+            let terdekat = 0;
+            let selisih = Infinity;
+            slides.forEach((s, i) => {
+                const d = Math.abs(s.offsetLeft - jalur.scrollLeft);
+                if (d < selisih) {
+                    selisih = d;
+                    terdekat = i;
+                }
+            });
+            aktif = terdekat;
+            titik.forEach((t, i) => {
+                t.classList.toggle('aktif', i === aktif);
+                if (i === aktif) t.setAttribute('aria-current', 'true');
+                else t.removeAttribute('aria-current');
+            });
+            if (saat) saat.textContent = String(aktif + 1);
+            if (prev) prev.disabled = aktif === 0;
+            if (next) next.disabled = aktif === slides.length - 1;
+            antre = false;
+        }
+
+        jalur.addEventListener(
             'scroll',
             () => {
-                if (!menunggu) {
-                    menunggu = true;
-                    requestAnimationFrame(cek);
+                if (!antre) {
+                    antre = true;
+                    requestAnimationFrame(perbarui);
                 }
             },
             { passive: true }
         );
-        cek();
-    }
 
-    /* ---------- Gambar proyek gagal dimuat: tampilkan pengganti ---------- */
-    document.querySelectorAll('.thumb img').forEach((img) => {
-        const sembunyi = () => img.classList.add('rusak');
-        img.addEventListener('error', sembunyi);
-        if (img.complete && img.naturalWidth === 0) sembunyi();
+        if (prev) prev.addEventListener('click', () => pergi(aktif - 1));
+        if (next) next.addEventListener('click', () => pergi(aktif + 1));
+
+        jalur.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                pergi(aktif - 1);
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                pergi(aktif + 1);
+            }
+        });
+
+        window.addEventListener('resize', perbarui);
+        perbarui();
     });
 
     if (!('IntersectionObserver' in window)) return;
@@ -81,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ---------- Animasi muncul saat scroll ---------- */
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (kurangiGerak) return;
 
     const tambah = (el, arah = '', jeda = 0) => {
         el.classList.add('reveal');
@@ -106,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, Number(el.dataset.jeda) + 1000);
             });
         },
-        { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
 
     document.querySelectorAll('.judul').forEach((el) => tambah(el));
@@ -115,10 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         [...grid.children].forEach((el, i) => tambah(el, '', i * 100));
     });
 
-    const avatar = document.querySelector('.avatar');
-    const teksTentang = document.querySelector('.tentang-grid > div:not(.avatar)');
-    if (avatar) tambah(avatar, 'reveal-kiri');
-    if (teksTentang) tambah(teksTentang, 'reveal-kanan', 150);
+    document.querySelectorAll('.tentang-isi > *').forEach((el, i) => tambah(el, '', i * 100));
 
     document.querySelectorAll('.kontak > p, .kontak-aksi').forEach((el, i) => {
         tambah(el, '', i * 120);

@@ -5,8 +5,7 @@
 
 @section('konten')
 @php
-    $profil = config('portofolio.profil');
-    $kosong = 'Informasi ini sedang dilengkapi dan akan diperbarui.';
+    $jumlah = count($p['slides']);
 @endphp
 
 <section class="detail">
@@ -19,72 +18,98 @@
             <p class="detail-ringkas">{{ $p['ringkas'] }}</p>
         </header>
 
-        <div class="thumb thumb-besar detail-blok">
-            @if ($p['gambar_url'])
-                <img src="{{ $p['gambar_url'] }}" alt="Tampilan aplikasi {{ $p['nama'] }}" decoding="async">
-            @endif
-            <span aria-hidden="true">{{ $p['inisial'] }}</span>
-        </div>
+        @if ($jumlah > 0)
+            <div class="slider detail-blok" data-slider>
+                <div class="slider-area">
+                    <div class="slider-jalur" tabindex="0" role="region" aria-label="Galeri tampilan {{ $p['nama'] }}">
+                        @foreach ($p['slides'] as $s)
+                            <figure class="slide">
+                                <img src="{{ $s['url'] }}" alt="{{ $s['judul'] }} - {{ $p['nama'] }}" @if (! $loop->first) loading="lazy" @endif decoding="async">
+                                <figcaption>{{ $s['judul'] }}</figcaption>
+                            </figure>
+                        @endforeach
+                    </div>
+
+                    @if ($jumlah > 1)
+                        <button type="button" class="slider-tombol slider-prev" aria-label="Foto sebelumnya">&#8249;</button>
+                        <button type="button" class="slider-tombol slider-next" aria-label="Foto berikutnya">&#8250;</button>
+                    @endif
+                </div>
+
+                @if ($jumlah > 1)
+                    <div class="slider-bawah">
+                        <div class="slider-titik"></div>
+                        <span class="slider-info"><span data-saat>1</span> / {{ $jumlah }} &middot; geser untuk foto lainnya</span>
+                    </div>
+                @endif
+            </div>
+        @else
+            <div class="thumb thumb-besar detail-blok">
+                <span class="inisial" aria-hidden="true">{{ $p['inisial'] }}</span>
+            </div>
+        @endif
 
         <div class="detail-grid">
-            <article class="kartu detail-blok lebar">
-                <h2>Latar Belakang dan Tujuan</h2>
-                <p>{{ $p['latar_tujuan'] ?? $kosong }}</p>
-            </article>
+            @if (!empty($p['latar']))
+                <article class="kartu detail-blok">
+                    <h2>Latar Belakang</h2>
+                    <p>{{ $p['latar'] }}</p>
+                </article>
+            @endif
 
-            <article class="kartu detail-blok">
-                <h2>Permasalahan yang Diselesaikan</h2>
-                <p>{{ $p['masalah'] ?? $kosong }}</p>
-            </article>
-
-            <article class="kartu detail-blok">
-                <h2>Fitur Utama</h2>
-                @if (!empty($p['fitur']))
+            @if (!empty($p['tujuan']))
+                <article class="kartu detail-blok">
+                    <h2>Tujuan Proyek</h2>
                     <ul class="daftar">
-                        @foreach ($p['fitur'] as $fitur)
-                            <li>{{ $fitur }}</li>
+                        @foreach ($p['tujuan'] as $item)
+                            <li>{{ $item }}</li>
                         @endforeach
                     </ul>
-                @else
-                    <p>{{ $kosong }}</p>
-                @endif
-            </article>
+                </article>
+            @endif
 
-            <article class="kartu detail-blok">
-                <h2>Teknologi yang Digunakan</h2>
-                @if (!empty($p['teknologi']))
+            @if (!empty($p['masalah']))
+                <article class="kartu detail-blok">
+                    <h2>Permasalahan yang Diselesaikan</h2>
+                    <p>{{ $p['masalah'] }}</p>
+                </article>
+            @endif
+
+            @if (!empty($p['fitur']))
+                <article class="kartu detail-blok">
+                    <h2>Fitur Utama</h2>
+                    <ul class="daftar">
+                        @foreach ($p['fitur'] as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
+                    </ul>
+                </article>
+            @endif
+
+            @if (!empty($p['teknologi']))
+                <article class="kartu detail-blok">
+                    <h2>Teknologi yang Digunakan</h2>
                     <div class="chips">
                         @foreach ($p['teknologi'] as $tek)
                             <span class="chip">{{ $tek }}</span>
                         @endforeach
                     </div>
-                @else
-                    <p>{{ $kosong }}</p>
-                @endif
-            </article>
+                </article>
+            @endif
 
-            <article class="kartu detail-blok">
-                <h2>Peran dan Proses Pengerjaan</h2>
-                <p>{{ $p['peran'] ?? $kosong }}</p>
-            </article>
+            @if (!empty($p['peran']))
+                <article class="kartu detail-blok">
+                    <h2>Peran dan Proses Pengerjaan</h2>
+                    <p>{{ $p['peran'] }}</p>
+                </article>
+            @endif
 
-            <article class="kartu detail-blok lebar">
-                <h2>Hasil Proyek</h2>
-                <p>{{ $p['hasil'] ?? $kosong }}</p>
-            </article>
-
-            <article class="kartu detail-blok lebar">
-                <h2>Screenshot Aplikasi</h2>
-                @if (!empty($p['galeri_url']))
-                    <div class="galeri">
-                        @foreach ($p['galeri_url'] as $url)
-                            <img src="{{ $url }}" alt="Screenshot {{ $p['nama'] }}" loading="lazy" decoding="async">
-                        @endforeach
-                    </div>
-                @else
-                    <p>Screenshot tambahan akan segera ditambahkan.</p>
-                @endif
-            </article>
+            @if (!empty($p['hasil']))
+                <article class="kartu detail-blok">
+                    <h2>Hasil Proyek</h2>
+                    <p>{{ $p['hasil'] }}</p>
+                </article>
+            @endif
         </div>
 
         <div class="detail-aksi detail-blok">

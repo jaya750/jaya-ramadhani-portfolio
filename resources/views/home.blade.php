@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('kelas', 'ber-hero')
+
 @section('konten')
 @php
     $profil = config('portofolio.profil');
@@ -7,33 +9,51 @@
 @endphp
 
 <section class="hero" id="beranda">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+    <div class="hero-latar" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="hias hias-1"></span>
+        <span class="hias hias-2"></span>
+        <span class="hias hias-3"></span>
+    </div>
+
     <div class="container hero-inner">
-        <p class="hero-sapa">Halo, saya</p>
-        <h1>{{ $profil['nama'] }}</h1>
-        <p class="hero-peran">Mahasiswa {{ $profil['prodi'] }} &amp; Freelancer</p>
-        <p class="hero-desk">Saya membuat solusi digital yang modern, rapi, dan mudah digunakan.</p>
-        <div class="hero-aksi">
-            <a href="#proyek" class="btn btn-utama">Lihat Proyek</a>
-            <a href="#kontak" class="btn btn-garis">Hubungi Saya</a>
+        <div class="hero-foto">
+            <div class="foto-bungkus">
+                @if ($foto)
+                    <img src="{{ $foto }}" alt="Foto {{ $profil['nama'] }}" fetchpriority="high" decoding="async">
+                @endif
+                <span class="inisial" aria-hidden="true">JR</span>
+            </div>
+        </div>
+
+        <div class="hero-teks">
+            <p class="hero-sapa">Halo, saya</p>
+            <h1>{{ $profil['nama'] }}</h1>
+            <p class="hero-peran">Mahasiswa {{ $profil['prodi'] }} &amp; Freelancer</p>
+            <p class="hero-desk">Saya membuat solusi digital yang modern, rapi, dan mudah digunakan.</p>
+            <div class="hero-aksi">
+                <a href="#proyek" class="btn btn-aksen">Lihat Proyek</a>
+                <a href="#kontak" class="btn btn-putih">Hubungi Saya</a>
+            </div>
         </div>
     </div>
+
+    <a href="#tentang" class="turun" aria-label="Gulir ke bagian Tentang">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </a>
 </section>
 
 <section class="section" id="tentang">
     <div class="container">
-        <h2 class="judul">Tentang Saya</h2>
-        <div class="tentang-grid">
-            <div class="avatar" aria-hidden="true">JR</div>
-            <div>
-                <p>Saya {{ $profil['nama'] }}, mahasiswa program studi {{ $profil['prodi'] }} di {{ $profil['kampus'] }}.</p>
-                <p>Saya menerima pekerjaan freelance dan senang mengubah kebutuhan menjadi sistem yang berguna.</p>
-                <ul class="info">
-                    <li><strong>Universitas</strong> {{ $profil['kampus'] }}</li>
-                    <li><strong>Program Studi</strong> {{ $profil['prodi'] }}</li>
-                </ul>
-            </div>
+        <h2 class="judul judul-kiri">Tentang Saya</h2>
+        <div class="tentang-isi">
+            <p>Saya {{ $profil['nama'] }}, mahasiswa program studi {{ $profil['prodi'] }} di {{ $profil['kampus'] }}.</p>
+            <p>Saya menerima pekerjaan freelance dan senang mengubah kebutuhan menjadi sistem yang berguna.</p>
+            <ul class="info">
+                <li><strong>Universitas</strong> {{ $profil['kampus'] }}</li>
+                <li><strong>Program Studi</strong> {{ $profil['prodi'] }}</li>
+            </ul>
         </div>
     </div>
 </section>
@@ -43,8 +63,8 @@
         <h2 class="judul">Keahlian</h2>
         <div class="grid grid-4">
             @foreach ($keahlian as $item)
-                <article class="kartu">
-                    <div class="nomor">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
+                <article class="kartu kartu-skill">
+                    <div class="ikon">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
                     <h3>{{ $item['judul'] }}</h3>
                     <p>{{ $item['isi'] }}</p>
                 </article>
@@ -63,7 +83,10 @@
                         @if ($p['gambar_url'])
                             <img src="{{ $p['gambar_url'] }}" alt="Tampilan aplikasi {{ $p['nama'] }}" loading="lazy" decoding="async">
                         @endif
-                        <span aria-hidden="true">{{ $p['inisial'] }}</span>
+                        <span class="inisial" aria-hidden="true">{{ $p['inisial'] }}</span>
+                        @if ($p['jumlah_foto'] > 1)
+                            <span class="badge-foto">{{ $p['jumlah_foto'] }} foto</span>
+                        @endif
                     </div>
                     <div class="proyek-isi">
                         <span class="label">{{ $p['kategori'] }}</span>

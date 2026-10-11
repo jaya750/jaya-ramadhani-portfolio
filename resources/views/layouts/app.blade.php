@@ -12,7 +12,7 @@
     <meta name="description" content="@yield('deskripsi', 'Portofolio ' . $profil['nama'] . ', mahasiswa Sistem Informasi dan freelancer.')">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="@yield('kelas')">
     <header class="navbar" id="navbar">
         <div class="container nav-inner">
             <a href="{{ $dasar }}#beranda" class="logo">{{ $profil['nama'] }}<span>.</span></a>
