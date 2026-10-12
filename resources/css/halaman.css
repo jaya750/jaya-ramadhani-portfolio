@@ -1,0 +1,693 @@
+/* ---------- Hero ---------- */
+.hero {
+    position: relative;
+    margin-top: calc(-1 * var(--tinggi-nav));
+    padding: calc(var(--tinggi-nav) + 3.5rem) 0 6rem;
+    background: linear-gradient(120deg, #0b1f4d, #1e3a8a, #2563eb, #1e3a8a, #0b1f4d);
+    background-size: 300% 300%;
+    animation: warna 16s ease infinite;
+    border-radius: 0 0 48px 48px;
+    color: var(--putih);
+}
+
+.hero-latar {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 0 0 48px 48px;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.35;
+    will-change: transform;
+}
+
+.blob-1 {
+    width: 340px;
+    height: 340px;
+    background: #60a5fa;
+    top: -90px;
+    right: -60px;
+    animation: melayang 9s ease-in-out infinite;
+}
+
+.blob-2 {
+    width: 260px;
+    height: 260px;
+    background: #38bdf8;
+    bottom: -70px;
+    left: -60px;
+    animation: melayang 11s ease-in-out infinite reverse;
+}
+
+.hias {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.22);
+    border-radius: 14px;
+    animation: melayang 8s ease-in-out infinite;
+}
+
+.hias-1 {
+    width: 70px;
+    height: 70px;
+    top: 22%;
+    right: 12%;
+}
+
+.hias-2 {
+    width: 44px;
+    height: 44px;
+    bottom: 24%;
+    left: 6%;
+    border-radius: 50%;
+    animation-duration: 10s;
+}
+
+.hias-3 {
+    width: 30px;
+    height: 30px;
+    top: 16%;
+    left: 44%;
+    background: rgba(245, 158, 11, 0.5);
+    border: 0;
+    animation-duration: 12s;
+}
+
+.hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-foto {
+    position: relative;
+    animation: zoom 0.9s ease both;
+}
+
+.foto-cincin {
+    position: relative;
+    width: min(100%, 340px);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    border-radius: 50%;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 0 12px rgba(255, 255, 255, 0.07);
+}
+
+.foto-cincin::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--aksen), #60a5fa, #ffffff, #38bdf8, var(--aksen));
+    animation: putar 8s linear infinite;
+}
+
+.foto-bungkus {
+    position: absolute;
+    inset: 7px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--biru-gelap), var(--biru-tua));
+    font-size: 4rem;
+    color: var(--putih);
+}
+
+.foto-bungkus img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.cm {
+    position: absolute;
+    z-index: 2;
+    padding: 0.35rem 0.95rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--biru-tua);
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    animation: ambang 6s ease-in-out infinite;
+}
+
+.cm-1 {
+    top: 8%;
+    right: 2%;
+}
+
+.cm-2 {
+    bottom: 16%;
+    left: -2%;
+    animation-delay: -2s;
+}
+
+.cm-3 {
+    bottom: 0;
+    right: 12%;
+    animation-delay: -4s;
+}
+
+.hero-teks > * {
+    animation: naik 0.8s ease both;
+}
+
+.hero-teks > :nth-child(1) { animation-delay: 0.1s; }
+.hero-teks > :nth-child(2) { animation-delay: 0.2s; }
+.hero-teks > :nth-child(3) { animation-delay: 0.3s; }
+.hero-teks > :nth-child(4) { animation-delay: 0.4s; }
+.hero-teks > :nth-child(5) { animation-delay: 0.5s; }
+
+.hero-sapa {
+    color: var(--aksen);
+    font-weight: 700;
+}
+
+.hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    line-height: 1.15;
+    color: var(--putih);
+    margin: 0.25rem 0 0.5rem;
+}
+
+.hero-peran {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.hero-desk {
+    max-width: 520px;
+    margin: 0.75rem 0 2rem;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.hero-aksi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.turun {
+    position: absolute;
+    left: 50%;
+    bottom: -26px;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--putih);
+    color: var(--biru-tua);
+    box-shadow: 0 8px 22px rgba(30, 58, 138, 0.3);
+    animation: lompat 2s ease-in-out infinite;
+}
+
+.hero + .section {
+    padding-top: 6.5rem;
+}
+
+@keyframes naik {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoom {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes melayang {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-24px, 22px);
+    }
+}
+
+@keyframes ambang {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes lompat {
+    0%, 100% {
+        transform: translate(-50%, 0);
+    }
+    50% {
+        transform: translate(-50%, 6px);
+    }
+}
+
+@keyframes putar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes warna {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ---------- Animasi scroll (kelas ditambahkan oleh JS) ---------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal-kiri {
+    transform: translateX(-40px);
+}
+
+.reveal-kanan {
+    transform: translateX(40px);
+}
+
+.reveal.tampil {
+    opacity: 1;
+    transform: none;
+}
+
+/* ---------- Section umum ---------- */
+.section {
+    padding: 5rem 0;
+    scroll-margin-top: var(--tinggi-nav);
+}
+
+.section-abu {
+    background-color: var(--abu);
+    background-image: radial-gradient(#cdd6e8 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+
+.section-grad {
+    background: linear-gradient(180deg, var(--putih), #eaf0ff);
+}
+
+.judul {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--biru-tua);
+    margin-bottom: 2.5rem;
+}
+
+.judul::before,
+.judul::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #cdd6e8;
+}
+
+.judul-kiri::before {
+    display: none;
+}
+
+/* ---------- Tentang ---------- */
+.tentang-isi {
+    max-width: 860px;
+}
+
+.tentang-isi p {
+    margin-bottom: 0.9rem;
+}
+
+.info {
+    margin-top: 1.25rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 0.75rem;
+}
+
+.info li {
+    padding: 0.75rem 1rem;
+    background: var(--abu);
+    border-left: 4px solid var(--biru);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+    transition: transform 0.25s, background 0.25s;
+}
+
+.info li:hover {
+    transform: translateX(6px);
+    background: var(--biru-muda);
+}
+
+.info strong {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--biru);
+}
+
+/* ---------- Chip ---------- */
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: var(--biru-muda);
+    color: var(--biru-tua);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ---------- Kartu (timbul) ---------- */
+.grid {
+    display: grid;
+    gap: 1.75rem;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.kartu {
+    position: relative;
+    padding: 1.5rem;
+    border: 1px solid var(--garis);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, #ffffff, #f7f9ff);
+    box-shadow: var(--timbul), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s, border-color 0.35s;
+    will-change: transform;
+}
+
+.kartu::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(37, 99, 235, 0.14), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.kartu:hover {
+    border-color: rgba(37, 99, 235, 0.45);
+    box-shadow: var(--timbul-hover), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.kartu:hover::after {
+    opacity: 1;
+}
+
+.grid .kartu:hover {
+    transform: translateY(-8px);
+}
+
+.kartu.miring {
+    transition: transform 0.12s ease-out, box-shadow 0.35s, border-color 0.35s;
+}
+
+.kartu h3 {
+    color: var(--biru-tua);
+    margin-bottom: 0.4rem;
+}
+
+.kartu p {
+    color: var(--teks-lembut);
+    font-size: 0.95rem;
+}
+
+/* ---------- Keahlian ---------- */
+.keahlian-intro {
+    max-width: 820px;
+    margin: -1rem auto 2.5rem;
+    text-align: center;
+    color: var(--teks-lembut);
+}
+
+.kartu-skill {
+    padding: 2rem 1.5rem 1.5rem;
+    border-radius: 22px;
+    overflow: hidden;
+}
+
+.kartu-skill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 64px;
+    height: 64px;
+    border-top: 6px solid var(--biru-tua);
+    border-left: 6px solid var(--biru-tua);
+    border-top-left-radius: 22px;
+}
+
+.ikon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0.9rem;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--biru), var(--biru-tua));
+    color: var(--putih);
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(30, 58, 138, 0.35);
+}
+
+.kartu-skill .sub {
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    color: var(--biru);
+}
+
+.kartu-skill .tek-label {
+    margin: 0.6rem 0 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--teks-lembut);
+}
+
+.kartu-skill .isi {
+    margin-top: 0.75rem;
+}
+
+.pendukung {
+    margin-top: 1.75rem;
+    padding: 1.75rem;
+}
+
+.pendukung h3 {
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+}
+
+.mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 1rem;
+}
+
+.mini {
+    padding: 1rem;
+    border-left: 4px solid var(--biru);
+    border-radius: 12px;
+    background: var(--abu);
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+    transition: transform 0.25s, background 0.25s;
+}
+
+.mini:hover {
+    transform: translateY(-4px);
+    background: var(--biru-muda);
+}
+
+.mini h4 {
+    margin-bottom: 0.3rem;
+    font-size: 0.98rem;
+    color: var(--biru-tua);
+}
+
+.mini p {
+    font-size: 0.9rem;
+}
+
+/* ---------- Kontak ---------- */
+.kontak {
+    text-align: center;
+}
+
+.kontak p {
+    color: var(--teks-lembut);
+}
+
+.kontak-aksi {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    padding: 1.5rem 0;
+    text-align: center;
+    background: var(--biru-tua);
+    color: var(--biru-muda);
+    font-size: 0.9rem;
+}
+
+.footer-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.footer-menu a:hover {
+    color: var(--putih);
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 992px) {
+    .hero-inner {
+        gap: 2rem;
+    }
+}
+
+/* ---------- HP ---------- */
+@media (max-width: 768px) {
+    .hero {
+        padding: calc(var(--tinggi-nav) + 1.5rem) 0 5rem;
+        border-radius: 0 0 36px 36px;
+    }
+
+    .hero-latar {
+        border-radius: 0 0 36px 36px;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+        text-align: center;
+    }
+
+    .foto-cincin {
+        width: min(70%, 250px);
+    }
+
+    .foto-bungkus {
+        font-size: 3rem;
+    }
+
+    .cm {
+        font-size: 0.78rem;
+        padding: 0.28rem 0.75rem;
+    }
+
+    .cm-1 {
+        right: 8%;
+    }
+
+    .cm-2 {
+        left: 6%;
+    }
+
+    .cm-3 {
+        right: 16%;
+    }
+
+    .hero-desk {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-aksi {
+        justify-content: center;
+    }
+
+    .hero + .section {
+        padding-top: 5rem;
+    }
+
+    .section {
+        padding: 3.5rem 0;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .keahlian-intro {
+        text-align: left;
+    }
+
+    .reveal-kiri,
+    .reveal-kanan {
+        transform: translateY(32px);
+    }
+}
+
+/* ---------- HP kecil ---------- */
+@media (max-width: 480px) {
+    .hero-aksi,
+    .kontak-aksi {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        text-align: center;
+    }
+
+    .blob-1 {
+        width: 220px;
+        height: 220px;
+    }
+
+    .blob-2 {
+        width: 180px;
+        height: 180px;
+    }
+}

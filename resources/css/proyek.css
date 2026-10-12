@@ -1,0 +1,330 @@
+/* ---------- Kartu proyek ---------- */
+.kartu.proyek {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+
+.thumb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    font-size: 2.2rem;
+    color: var(--putih);
+    background: linear-gradient(135deg, var(--biru), #60a5fa);
+}
+
+.thumb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(11, 31, 77, 0.45));
+    pointer-events: none;
+}
+
+.thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.5s ease;
+}
+
+.proyek:hover .thumb img {
+    transform: scale(1.06);
+}
+
+.thumb-besar {
+    margin-bottom: 2rem;
+    border-radius: var(--radius);
+    font-size: 4rem;
+}
+
+.badge-foto {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 1;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.78);
+    color: var(--putih);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.proyek-isi {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.proyek-isi h3 {
+    margin-bottom: 0;
+}
+
+.proyek-isi p {
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.proyek-isi .btn {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+.label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--biru);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ---------- Halaman detail proyek ---------- */
+.detail {
+    padding: 3rem 0 5rem;
+}
+
+.kembali {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: var(--biru);
+}
+
+.kembali:hover {
+    text-decoration: underline;
+}
+
+.detail-kategori {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--biru);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.detail-kepala {
+    margin-bottom: 2rem;
+}
+
+.detail-kepala h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.15;
+    color: var(--biru-tua);
+    margin: 0.25rem 0 0.75rem;
+}
+
+.detail-ringkas {
+    max-width: 720px;
+    color: var(--teks-lembut);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 1.75rem;
+    margin-top: 2rem;
+}
+
+.detail .kartu:hover {
+    transform: translateY(-4px);
+}
+
+.detail .kartu h2 {
+    font-size: 1.15rem;
+    color: var(--biru-tua);
+    margin-bottom: 0.6rem;
+}
+
+.daftar {
+    padding-left: 1.1rem;
+    list-style: disc;
+    color: var(--teks-lembut);
+    font-size: 0.95rem;
+}
+
+.daftar li {
+    margin-bottom: 0.2rem;
+}
+
+.detail-aksi {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+}
+
+/* ---------- Slider foto ---------- */
+.slider-area {
+    position: relative;
+}
+
+.slider-jalur {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.25rem 0.25rem 1.5rem;
+    margin: 0 -0.25rem;
+}
+
+.slider-jalur::-webkit-scrollbar {
+    display: none;
+}
+
+.slide {
+    flex: 0 0 100%;
+    margin: 0;
+    scroll-snap-align: start;
+    overflow: hidden;
+    border: 1px solid var(--garis);
+    border-radius: var(--radius);
+    background: var(--abu);
+    box-shadow: var(--timbul);
+}
+
+.slide img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: var(--abu);
+}
+
+.slide figcaption {
+    padding: 0.65rem 1rem;
+    border-top: 1px solid var(--garis);
+    background: var(--putih);
+    color: var(--biru-tua);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.slider-tombol {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 46px;
+    height: 46px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--biru-tua);
+    font-size: 1.9rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(30, 58, 138, 0.3);
+    transition: background 0.2s, color 0.2s, opacity 0.2s, transform 0.2s;
+}
+
+.slider-tombol:hover:not(:disabled) {
+    background: var(--biru);
+    color: var(--putih);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.slider-tombol:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.slider-prev {
+    left: 0.75rem;
+}
+
+.slider-next {
+    right: 0.75rem;
+}
+
+.slider-bawah {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.slider-titik {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.slider-titik button {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #c3cde3;
+    cursor: pointer;
+    transition: width 0.25s, background 0.25s;
+}
+
+.slider-titik button.aktif {
+    width: 26px;
+    background: var(--biru);
+}
+
+.slider-info {
+    font-size: 0.85rem;
+    color: var(--teks-lembut);
+}
+
+/* ---------- HP ---------- */
+@media (max-width: 768px) {
+    .detail {
+        padding: 2rem 0 3.5rem;
+    }
+
+    .slider-tombol {
+        width: 38px;
+        height: 38px;
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-aksi {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .slider-info {
+        font-size: 0.8rem;
+    }
+}
+
+/* ---------- Kurangi gerak (aksesibilitas) ---------- */
+@media (prefers-reduced-motion: reduce) {
+    html,
+    .slider-jalur {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+}

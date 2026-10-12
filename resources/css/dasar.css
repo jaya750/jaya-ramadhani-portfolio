@@ -1,0 +1,335 @@
+:root {
+    --biru: #2563eb;
+    --biru-tua: #1e3a8a;
+    --biru-gelap: #0b1f4d;
+    --biru-muda: #dbeafe;
+    --aksen: #f59e0b;
+    --aksen-tua: #d97706;
+    --putih: #ffffff;
+    --abu: #f3f6fc;
+    --teks: #1f2937;
+    --teks-lembut: #5b6472;
+    --garis: #e3e8f2;
+    --radius: 18px;
+    --timbul: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 14px rgba(30, 58, 138, 0.1), 0 18px 38px rgba(30, 58, 138, 0.14);
+    --timbul-hover: 0 2px 4px rgba(15, 23, 42, 0.08), 0 14px 30px rgba(30, 58, 138, 0.18), 0 34px 64px rgba(30, 58, 138, 0.24);
+    --tinggi-nav: 68px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--putih);
+    color: var(--teks);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+img.rusak {
+    display: none;
+}
+
+.inisial {
+    font-weight: 800;
+}
+
+:focus-visible {
+    outline: 3px solid var(--biru);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+}
+
+/* ---------- Bilah progres scroll ---------- */
+.progres {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--biru), var(--aksen));
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    pointer-events: none;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--tinggi-nav);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--garis);
+    transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.navbar.solid {
+    box-shadow: 0 6px 20px rgba(30, 58, 138, 0.1);
+}
+
+.nav-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--biru-tua);
+}
+
+.logo span {
+    color: var(--biru);
+}
+
+.menu {
+    display: flex;
+    gap: 1.75rem;
+}
+
+.menu a {
+    position: relative;
+    font-weight: 500;
+    color: var(--teks-lembut);
+    transition: color 0.2s;
+}
+
+.menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: var(--biru);
+    transition: width 0.25s;
+}
+
+.menu a:hover,
+.menu a.aktif {
+    color: var(--biru);
+}
+
+.menu a:hover::after,
+.menu a.aktif::after {
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: 0;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--biru-tua);
+    transition: transform 0.25s, opacity 0.25s, background 0.25s;
+}
+
+.menu-toggle.aktif span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.aktif span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.aktif span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Navbar transparan di atas hero (halaman utama) */
+.ber-hero .navbar:not(.solid) {
+    background: transparent;
+    border-bottom-color: transparent;
+    backdrop-filter: none;
+}
+
+.ber-hero .navbar:not(.solid) .logo,
+.ber-hero .navbar:not(.solid) .menu a {
+    color: var(--putih);
+}
+
+.ber-hero .navbar:not(.solid) .logo span {
+    color: var(--aksen);
+}
+
+.ber-hero .navbar:not(.solid) .menu a::after {
+    background: var(--aksen);
+}
+
+.ber-hero .navbar:not(.solid) .menu a.aktif {
+    color: var(--aksen);
+}
+
+.ber-hero .navbar:not(.solid) .menu-toggle span {
+    background: var(--putih);
+}
+
+/* ---------- Tombol ---------- */
+.btn {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border: 2px solid var(--biru);
+    overflow-wrap: anywhere;
+    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.btn:hover::before {
+    left: 130%;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.28);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-kecil {
+    padding: 0.5rem 1.15rem;
+    font-size: 0.92rem;
+}
+
+.btn-utama {
+    background: var(--biru);
+    color: var(--putih);
+}
+
+.btn-utama:hover {
+    background: var(--biru-tua);
+    border-color: var(--biru-tua);
+}
+
+.btn-garis {
+    background: transparent;
+    color: var(--biru);
+}
+
+.btn-garis:hover {
+    background: var(--biru);
+    color: var(--putih);
+}
+
+.btn-aksen {
+    background: var(--aksen);
+    border-color: var(--aksen);
+    color: var(--teks);
+}
+
+.btn-aksen:hover {
+    background: var(--aksen-tua);
+    border-color: var(--aksen-tua);
+    box-shadow: 0 10px 22px rgba(245, 158, 11, 0.4);
+}
+
+.btn-putih {
+    background: var(--putih);
+    border-color: var(--putih);
+    color: var(--biru-tua);
+}
+
+.btn-putih:hover {
+    background: var(--biru-muda);
+    border-color: var(--biru-muda);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Menu HP ---------- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .menu {
+        position: absolute;
+        top: var(--tinggi-nav);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--putih);
+        border-bottom: 1px solid var(--garis);
+        box-shadow: 0 12px 24px rgba(30, 58, 138, 0.1);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        pointer-events: none;
+        transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+    }
+
+    .menu.buka {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .menu a {
+        padding: 1rem 1.25rem;
+        border-top: 1px solid var(--garis);
+    }
+
+    .menu a::after {
+        display: none;
+    }
+
+    .menu a.aktif {
+        background: var(--abu);
+    }
+}

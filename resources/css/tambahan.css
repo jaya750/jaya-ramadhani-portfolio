@@ -1,0 +1,397 @@
+/* ---------- Lencana logo teknologi di sekeliling foto hero ---------- */
+.logo-tek {
+    --u: 62px;
+    position: absolute;
+    z-index: 3;
+    width: var(--u);
+    height: var(--u);
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--putih);
+    border: 3px solid var(--warna, var(--biru));
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 0 5px rgba(255, 255, 255, 0.15);
+    animation: ambang 6s ease-in-out infinite;
+    transition: scale 0.25s ease;
+    cursor: default;
+}
+
+.logo-tek svg {
+    width: 56%;
+    height: 56%;
+}
+
+.logo-tek::after {
+    content: attr(data-nama);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: 8px;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.92);
+    color: var(--putih);
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, -4px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+}
+
+.logo-tek:hover {
+    scale: 1.15;
+    animation-play-state: paused;
+}
+
+.logo-tek:hover::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* MySQL kiri-atas, Laravel kanan-atas, PHP kanan-bawah, Python kiri-bawah */
+.lt-1 {
+    left: calc(14.6% - var(--u) / 2 - 6px);
+    top: calc(14.6% - var(--u) / 2 - 6px);
+}
+
+.lt-2 {
+    left: calc(85.4% - var(--u) / 2 + 6px);
+    top: calc(14.6% - var(--u) / 2 - 6px);
+    animation-delay: -1.5s;
+}
+
+.lt-3 {
+    left: calc(85.4% - var(--u) / 2 + 6px);
+    top: calc(85.4% - var(--u) / 2 + 6px);
+    animation-delay: -3s;
+}
+
+.lt-4 {
+    left: calc(14.6% - var(--u) / 2 - 6px);
+    top: calc(85.4% - var(--u) / 2 + 6px);
+    animation-delay: -4.5s;
+}
+
+/* ---------- Tentang Saya ---------- */
+.tentang-bg {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #ffffff, #f1f5ff 60%, #ffffff);
+}
+
+.tentang-hias span {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.tentang-hias span:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 8%;
+    left: -100px;
+    background: #93c5fd;
+}
+
+.tentang-hias span:nth-child(2) {
+    width: 260px;
+    height: 260px;
+    right: -80px;
+    bottom: 4%;
+    background: #bfdbfe;
+}
+
+.tentang-bg .container {
+    position: relative;
+}
+
+.tentang-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+    gap: 2.5rem;
+}
+
+/* Kartu profil */
+.tentang-profil {
+    padding: 2rem 1.75rem 1.75rem;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.tentang-profil::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--biru), #38bdf8, var(--aksen), var(--biru));
+    background-size: 200% 100%;
+    animation: kilau 5s linear infinite;
+}
+
+@keyframes kilau {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.profil-atas {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.profil-foto {
+    position: relative;
+    flex: 0 0 76px;
+    width: 76px;
+    height: 76px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--biru), var(--biru-tua));
+    color: var(--putih);
+    font-size: 1.5rem;
+    box-shadow: 0 0 0 4px var(--putih), 0 8px 20px rgba(30, 58, 138, 0.35);
+}
+
+.profil-foto img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+.profil-atas h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.profil-atas p {
+    margin: 0 0 0.4rem;
+}
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.75rem;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.status i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    animation: denyut 1.8s ease-out infinite;
+}
+
+@keyframes denyut {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+}
+
+.profil-info {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.profil-info li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--garis);
+    border-radius: 14px;
+    background: var(--abu);
+    transition: transform 0.25s, background 0.25s, box-shadow 0.25s;
+}
+
+.profil-info li:hover {
+    transform: translateX(6px);
+    background: var(--biru-muda);
+    box-shadow: 0 8px 18px rgba(30, 58, 138, 0.12);
+}
+
+.pi-ikon {
+    flex: 0 0 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--biru), var(--biru-tua));
+    color: var(--putih);
+    box-shadow: 0 6px 14px rgba(30, 58, 138, 0.3);
+}
+
+.pi-ikon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.profil-info small {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--biru);
+}
+
+.profil-info strong {
+    display: block;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    color: var(--biru-tua);
+}
+
+.profil-stat {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.profil-stat div {
+    padding: 0.9rem;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--biru-tua), var(--biru));
+    color: var(--putih);
+    text-align: center;
+    box-shadow: 0 10px 22px rgba(30, 58, 138, 0.3);
+}
+
+.profil-stat b {
+    display: block;
+    font-size: 1.9rem;
+    line-height: 1.1;
+}
+
+.profil-stat span {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+/* Teks Tentang */
+.tentang-teks p {
+    margin-bottom: 0.9rem;
+    color: var(--teks-lembut);
+}
+
+.tentang-teks .lead {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--teks);
+}
+
+.fokus-kutip {
+    position: relative;
+    margin: 1.25rem 0 1.75rem;
+    padding: 1.5rem 1.5rem 1.5rem 3.5rem;
+    border: 1px solid var(--garis);
+    border-left: 5px solid var(--biru);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ffffff, #eef3ff);
+    box-shadow: var(--timbul);
+    color: var(--teks);
+}
+
+.fokus-kutip::before {
+    content: "\201C";
+    position: absolute;
+    left: 1rem;
+    top: 0.2rem;
+    font-family: Georgia, serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--biru);
+    opacity: 0.35;
+}
+
+.fokus-judul {
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    color: var(--biru-tua);
+}
+
+.fokus-daftar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 0.75rem;
+}
+
+.fokus-daftar li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--garis);
+    border-radius: 14px;
+    background: var(--putih);
+    box-shadow: 0 6px 16px rgba(30, 58, 138, 0.1);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--biru-tua);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.fokus-daftar li:hover {
+    transform: translateY(-5px);
+    border-color: rgba(37, 99, 235, 0.45);
+    box-shadow: 0 16px 32px rgba(30, 58, 138, 0.18);
+}
+
+.fokus-no {
+    flex: 0 0 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--biru-muda);
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--biru-tua);
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 900px) {
+    .tentang-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo-tek {
+        --u: 46px;
+        border-width: 2px;
+    }
+
+    .logo-tek::after {
+        display: none;
+    }
+
+    .fokus-kutip {
+        padding: 1.25rem 1.25rem 1.25rem 3rem;
+    }
+}

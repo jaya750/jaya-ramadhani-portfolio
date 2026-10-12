@@ -3,13 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const tombol = document.getElementById('menu-toggle');
     const menu = document.getElementById('menu');
     const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const adaMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     let menuTerbuka = false;
     let menunggu = false;
 
+    /* ---------- Bilah progres scroll ---------- */
+    const progres = document.createElement('div');
+    progres.className = 'progres';
+    progres.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(progres);
+
     /* ---------- Navbar: transparan di atas hero, solid saat scroll / menu terbuka ---------- */
     const perbaruiNavbar = () => {
         if (navbar) navbar.classList.toggle('solid', window.scrollY > 10 || menuTerbuka);
+
+        const maks = document.documentElement.scrollHeight - window.innerHeight;
+        progres.style.transform = 'scaleX(' + (maks > 0 ? Math.min(window.scrollY / maks, 1) : 0) + ')';
         menunggu = false;
     };
 
@@ -54,6 +64,44 @@ document.addEventListener('DOMContentLoaded', () => {
         img.addEventListener('error', sembunyi);
         if (img.complete && img.naturalWidth === 0) sembunyi();
     });
+
+    /* ---------- Kartu: cahaya sorot mengikuti kursor + efek miring 3D ---------- */
+    if (adaMouse) {
+        document.querySelectorAll('.kartu').forEach((kartu) => {
+            const miring = !kurangiGerak && kartu.closest('.grid') !== null;
+            let rAF = 0;
+
+            kartu.addEventListener('pointerenter', () => kartu.classList.add('miring'));
+
+            kartu.addEventListener('pointermove', (e) => {
+                if (rAF) return;
+                rAF = requestAnimationFrame(() => {
+                    rAF = 0;
+                    const r = kartu.getBoundingClientRect();
+                    const x = e.clientX - r.left;
+                    const y = e.clientY - r.top;
+                    kartu.style.setProperty('--mx', x + 'px');
+                    kartu.style.setProperty('--my', y + 'px');
+
+                    if (miring) {
+                        const rx = (y / r.height - 0.5) * -8;
+                        const ry = (x / r.width - 0.5) * 8;
+                        kartu.style.transform =
+                            'perspective(900px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateY(-8px)';
+                    }
+                });
+            });
+
+            kartu.addEventListener('pointerleave', () => {
+                if (rAF) {
+                    cancelAnimationFrame(rAF);
+                    rAF = 0;
+                }
+                kartu.classList.remove('miring');
+                kartu.style.transform = '';
+            });
+        });
+    }
 
     /* ---------- Slider foto proyek ---------- */
     document.querySelectorAll('[data-slider]').forEach((slider) => {
@@ -193,6 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('.tentang-isi > *').forEach((el, i) => tambah(el, '', i * 100));
+
+    document.querySelectorAll('.keahlian-intro, .pendukung').forEach((el) => tambah(el));
 
     document.querySelectorAll('.kontak > p, .kontak-aksi').forEach((el, i) => {
         tambah(el, '', i * 120);

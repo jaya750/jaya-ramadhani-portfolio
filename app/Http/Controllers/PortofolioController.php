@@ -9,10 +9,14 @@ class PortofolioController extends Controller
     public function home(): View
     {
         $proyek = collect(config('portofolio.proyek'))
-            ->map(fn ($p) => $p + [
-                'gambar_url'  => $this->gambarUrl($p['gambar'] ?? null),
-                'jumlah_foto' => count($this->galeriUrl($p['galeri_pola'] ?? null)),
-            ])
+            ->map(function ($p) {
+                $slides = $this->slides($p);
+
+                return $p + [
+                    'gambar_url'  => $slides[0]['url'] ?? null,
+                    'jumlah_foto' => count($slides),
+                ];
+            })
             ->all();
 
         return view('home', [
@@ -27,22 +31,30 @@ class PortofolioController extends Controller
 
         abort_if($p === null, 404);
 
-        $urls = $this->galeriUrl($p['galeri_pola'] ?? null);
-
-        if (empty($urls)) {
-            $sampul = $this->gambarUrl($p['gambar'] ?? null);
-            $urls = $sampul ? [$sampul] : [];
-        }
-
-        $p['slides'] = [];
-        foreach ($urls as $i => $url) {
-            $p['slides'][] = [
-                'url'   => $url,
-                'judul' => $p['galeri_judul'][$i] ?? ('Tampilan ' . $p['nama']),
-            ];
-        }
+        $p['slides'] = $this->slides($p);
 
         return view('proyek.show', ['p' => $p]);
+    }
+
+    /**
+     * Susun slide sesuai urutan di config. Foto yang tidak ditemukan dilewati.
+     */
+    private function slides(array $p): array
+    {
+        $hasil = [];
+
+        foreach ($p['galeri'] ?? [] as $g) {
+            $url = $this->gambarUrl($g[0] ?? null);
+
+            if ($url) {
+                $hasil[] = [
+                    'url'   => $url,
+                    'judul' => $g[1] ?? ('Tampilan ' . $p['nama']),
+                ];
+            }
+        }
+
+        return $hasil;
     }
 
     /**
@@ -95,27 +107,5 @@ class PortofolioController extends Controller
         }
 
         return null;
-    }
-
-    /**
-     * Ambil semua gambar yang cocok dengan pola, urut menurut angka di akhir nama.
-     */
-    private function galeriUrl(?string $pola): array
-    {
-        if (! $pola) {
-            return [];
-        }
-
-        $pola = strtolower($pola);
-        $cocok = array_filter($this->daftarGambar(), fn ($g) => fnmatch($pola, $g['nama']));
-
-        usort($cocok, fn ($a, $b) => $this->nomor($a['nama']) <=> $this->nomor($b['nama']));
-
-        return array_column($cocok, 'url');
-    }
-
-    private function nomor(string $nama): int
-    {
-        return preg_match('/(\d+)$/', $nama, $m) ? (int) $m[1] : 0;
     }
 }
